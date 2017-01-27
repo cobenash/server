@@ -11,3 +11,8 @@
 2. php-fpm
 3. Mysql
 4. Drush
+
+## 加入了SSH Key
+在這個Repo裡面，加入了我們自行產生的Key，方便我們可以Access到容器內進行管理
+
+## 使用方式
