@@ -1,3 +1,4 @@
+# update on 20170322
 FROM ubuntu:16.04
 
 MAINTAINER victor.yang@hellosanta.com.tw
@@ -6,7 +7,6 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 # nginx 1.10.2 php7.0-fpm
-
 RUN  apt-get install software-properties-common python-software-properties  -y
 RUN  apt-get install python-software-properties
 RUN  add-apt-repository ppa:nginx/stable
@@ -14,10 +14,11 @@ RUN  apt-get update
 RUN  apt-get upgrade -y
 RUN  apt-get install nginx  -y
 RUN  apt-get install software-properties-common
+RUN  apt-get install locales
 RUN  locale-gen en_US.UTF-8
 RUN  export LANG=en_US.UTF-8
 RUN  export LANG=C.UTF-8
-RUN  add-apt-repository ppa:ondrej/php
+RUN  LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
 RUN  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys  4F4EA0AAE5267A6C
 RUN  apt-get update
 RUN  apt-get upgrade -y
@@ -68,7 +69,7 @@ RUN apt-get install -y rsync mysql-client
 EXPOSE 80 22
 
 #啟動檔設定檔
-ADD  supervisord.conf /etc/supervisor/supervisord.conf
+ADD  supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD  www.conf  /etc/php/7.0/fpm/pool.d/www.conf
 ADD  php.ini    /etc/php/7.0/fpm/php.ini
 ADD  default   /etc/nginx/sites-available/default
