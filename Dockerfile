@@ -62,13 +62,8 @@ RUN drush init -y
 WORKDIR /usr/share/nginx/www
 
 
-# mysql
-
- RUN apt-get update \
-    && apt-get install -y debconf-utils \
-    && echo mysql-server mysql-server/root_password password  YOURPASSWORD | debconf-set-selections \
-    && echo mysql-server mysql-server/root_password_again password YOURPASSWORD | debconf-set-selections \
-    && apt-get install -y mysql-server
+# Install mysql-clients && rsync. In order to sync database with the container
+RUN apt-get install -y rsync mysql-client
 
 EXPOSE 80 22
 
@@ -77,7 +72,6 @@ ADD  supervisord.conf /etc/supervisor/supervisord.conf
 ADD  www.conf  /etc/php/7.0/fpm/pool.d/www.conf
 ADD  php.ini    /etc/php/7.0/fpm/php.ini
 ADD  default   /etc/nginx/sites-available/default
-ADD  my.cnf    /etc/mysql/my.cnf
 ADD  nginx.conf /etc/nginx/
 
 CMD ["/usr/bin/supervisord"]
